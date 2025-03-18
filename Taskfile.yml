@@ -1,0 +1,52 @@
+# https://taskfile.dev
+
+version: '3'
+tasks:
+  templ-gen:
+    cmds:
+      - templ generate
+    silent: true
+
+  nebula:build:
+    dir: .
+    cmds:
+      - devbox run build
+    silent: true
+
+  nebula:publish:
+    dir: .
+    cmds:
+      - devbox run publish
+    silent: true
+
+  nebula:bump:
+    dir: .
+    internal: true
+    cmds:
+      - devbox run bump
+      - git add .
+      - git commit -m "(chore) update build version [skip ci]"
+      - git push
+
+  esclient:build:
+    dir: ./libs/es-client
+    cmds:
+      - devbox run build
+    silent: true
+
+  esclient:publish:
+    dir: ./libs/es-client
+    cmds:
+      - task: esclient:bump
+      - devbox run publish
+    silent: true
+
+  esclient:bump:
+    dir: ./libs/es-client
+    internal: true
+    cmds:
+      - devbox run bump
+      - git add .
+      - git commit -m "(chore) bump version"
+      - git push
+    silent: true
