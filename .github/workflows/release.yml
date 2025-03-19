@@ -1,0 +1,76 @@
+name: Deploy CDN WebComponents
+
+on:
+  push:
+    branches:
+      - "other"
+
+jobs:
+  deploy-docs:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Deploy Docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: _site
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          cname: nebulaui.org
+
+  publish:
+    needs: deploy-docs
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, 'src/')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Git Config
+        run: |
+          bun install
+          git config user.name "Prad N."
+          git config user.email "prad@sonr.io"
+
+      - name: Build
+        run: bun run build
+
+      - name: 'Automated Version Bump and Release'
+        run: |
+          git add .
+          git commit -m "chore: update build artifacts [skip ci]" || echo "No changes to commit"
+          npm version patch
+          git push
+          git push --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
