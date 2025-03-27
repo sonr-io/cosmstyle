@@ -1,4 +1,4 @@
-package nebula
+package config
 
 import "go.mongodb.org/mongo-driver/bson"
 
