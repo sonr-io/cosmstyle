@@ -1,4 +1,4 @@
-module git.sonr.io/web/nebula
+module github.com/sonr-io/nebula
 
 go 1.23.4
 
