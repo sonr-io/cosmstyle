@@ -12,9 +12,13 @@ tasks:
       - task: build:shoelace
 
   gen:
-    cmds:
-      - templ generate
+    cmd: templ generate
     silent: true
+
+  bump:
+    internal: true
+    cmds:
+      - devbox run bump
 
   build:cosmes:
     internal: true
@@ -27,12 +31,3 @@ tasks:
     dir: packages/shoelace
     cmds:
       - devbox run build
-
-  nebula:bump:
-    dir: .
-    internal: true
-    cmds:
-      - devbox run bump
-      - git add .
-      - git commit -m "(chore) update build version [skip ci]"
-      - git push
