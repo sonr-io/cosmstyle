@@ -331,7 +331,6 @@ if (!serve) {
   // await nextTask('Building the docs', async () => {
   //   result = await buildTheDocs();
   // });
-  rmSync(sitedir, { recursive: true, force: true });
 }
 
 // Cleanup on exit
