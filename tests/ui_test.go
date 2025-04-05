@@ -2,6 +2,7 @@ package tests
 
 import (
 	"context"
+	"io"
 	"strings"
 	"testing"
 
@@ -213,7 +214,7 @@ func TestPasskeyInput(t *testing.T) {
 // Test the layout components
 func TestLayoutComponents(t *testing.T) {
 	// Test Container
-	html := renderComponent(t, ui.Container(templ.ComponentFunc(func(ctx context.Context, w templ.Writer) error {
+	html := renderComponent(t, ui.Container(templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		_, err := w.Write([]byte("Container Content"))
 		return err
 	})))
@@ -223,7 +224,7 @@ func TestLayoutComponents(t *testing.T) {
 	}
 
 	// Test Columns
-	html = renderComponent(t, ui.Columns(templ.ComponentFunc(func(ctx context.Context, w templ.Writer) error {
+	html = renderComponent(t, ui.Columns(templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		_, err := w.Write([]byte("Column Content"))
 		return err
 	})))
@@ -233,7 +234,7 @@ func TestLayoutComponents(t *testing.T) {
 	}
 
 	// Test Rows
-	html = renderComponent(t, ui.Rows(templ.ComponentFunc(func(ctx context.Context, w templ.Writer) error {
+	html = renderComponent(t, ui.Rows(templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		_, err := w.Write([]byte("Row Content"))
 		return err
 	})))
@@ -253,7 +254,7 @@ func TestLayoutComponents(t *testing.T) {
 // Test the Form layout components
 func TestFormLayouts(t *testing.T) {
 	// Test Form
-	html := renderComponent(t, ui.Form("/submit", "test-form", templ.ComponentFunc(func(ctx context.Context, w templ.Writer) error {
+	html := renderComponent(t, ui.Form("/submit", "test-form", templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		_, err := w.Write([]byte("Form Content"))
 		return err
 	})))
@@ -263,7 +264,7 @@ func TestFormLayouts(t *testing.T) {
 	}
 
 	// Test Body
-	html = renderComponent(t, ui.Body(templ.ComponentFunc(func(ctx context.Context, w templ.Writer) error {
+	html = renderComponent(t, ui.Body(templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		_, err := w.Write([]byte("Body Content"))
 		return err
 	})))
