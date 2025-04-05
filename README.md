@@ -1,4 +1,4 @@
-# Sonr Design System
+# `nebula` - Sonr Design System
 
 A comprehensive monorepo for Sonr's design system, featuring Golang Templ components and web components for building blockchain applications.
 

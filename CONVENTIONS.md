@@ -1,32 +1,25 @@
-# Nebula Development Guidelines
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Build Commands
-- Generate templ files: `task templ-gen` or `make generate`
-- Build project: `make build` or `task nebula:build`
-- Publish: `make release` or `task nebula:publish`
+- `task gen:templ`: Generate templ files
+- `task build`: Build Nebula (runs build:cosmes and build:shoelace)
+- `pnpm build` (in packages/cosmes): Build package to dist folder
+- `pnpm dev` (in packages/cosmes): Watch and rebuild on changes
 
-## Code Style Guidelines
+## Test Commands
+- `pnpm test` (in packages/cosmes): Run unit tests
+- `pnpm test:suite` (in packages/cosmes): Run full test suite (lint, typecheck, tests)
 
-### Go
-- Use Go 1.23.4 standards
-- Group imports: standard library first, then third-party packages
-- Use meaningful variable/function names in camelCase (e.g., `shortenAddress`)
-- Document public functions with comments
-- Use error handling with proper context
+## Code Style
+- **Go**: Follow Go 1.23.4 standards; group imports (stdlib first); use meaningful camelCase names
+- **Templ**: Files follow `name.templ` pattern; don't edit generated `*_templ.go` files
+- **UI**: Use TailwindCSS, Alpine.js, and Shoelace components (`sl-` prefix)
+- **Error Handling**: Return errors with proper context; use consistent patterns
+- **Git**: Use conventional commit format (feat:, fix:, docs:, etc.)
 
-### Templ
-- Component files follow `name.templ` pattern
-- Maintain consistent indentation in HTML templates
-- Group related components in package directories
-- Use clear component naming that describes functionality
-- Generated Go files (name_templ.go) should not be edited manually
-
-### HTML/CSS
-- Use TailwindCSS classes for styling
-- Follow BEM-like naming for custom CSS classes
-- Maintain responsive design principles
-- Custom components use the `sl-` prefix
-
-### Git Workflow
-- Commit messages follow conventional format (feat:, fix:, refactor:, etc.)
-- Maintain clean git history (no merge conflicts in PRs)
+## Project Structure
+- `ui/`: Frontend components organized by type (cards, inputs, layouts, etc.)
+- `packages/`: Core SDK packages including cosmes and shoelace
+- `tests/`: Test fixtures and integration tests
