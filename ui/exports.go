@@ -3,6 +3,7 @@
 package ui
 
 import (
+	"github.com/a-h/templ"
 	"github.com/sonr-io/nebula/ui/cards"
 	"github.com/sonr-io/nebula/ui/dropdowns"
 	"github.com/sonr-io/nebula/ui/inputs"
@@ -86,7 +87,7 @@ var (
 	Clsx      = layouts.Clsx
 
 	// Form layout components
-	Form   = layouts.Form
+	Form   = formWithChildren
 	Header = layouts.Header
 	Body   = layouts.Body
 	Footer = layouts.Footer
@@ -101,3 +102,16 @@ var (
 	Turnstile = layouts.Turnstile
 	Nebula    = layouts.Nebula
 )
+
+// Helper function to make Form accept children
+func formWithChildren(action, id string, children ...templ.Component) templ.Component {
+	return layouts.Form(action, id).Wrap(templ.ComponentFunc(func(ctx templ.Context, w templ.Writer) error {
+		for _, child := range children {
+			err := child.Render(ctx, w)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	}))
+}
