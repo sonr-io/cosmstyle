@@ -3,6 +3,9 @@
 package ui
 
 import (
+	"context"
+	"io"
+
 	"github.com/a-h/templ"
 	"github.com/sonr-io/nebula/ui/cards"
 	"github.com/sonr-io/nebula/ui/dropdowns"
@@ -105,13 +108,23 @@ var (
 
 // Helper function to make Form accept children
 func formWithChildren(action, id string, children ...templ.Component) templ.Component {
-	return layouts.Form(action, id).Wrap(templ.ComponentFunc(func(ctx templ.Context, w templ.Writer) error {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		// Render form opening tag
+		err := layouts.Form(action, id).Render(ctx, w)
+		if err != nil {
+			return err
+		}
+		
+		// Render all children
 		for _, child := range children {
 			err := child.Render(ctx, w)
 			if err != nil {
 				return err
 			}
 		}
-		return nil
-	}))
+		
+		// Close the form tag
+		_, err = io.WriteString(w, "</form>")
+		return err
+	})
 }
