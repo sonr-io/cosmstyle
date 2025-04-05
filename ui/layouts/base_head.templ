@@ -11,7 +11,7 @@ var (
 	turnstileHandle = templ.NewOnceHandle()
 )
 
-templ Root(title string, nebulaVersion string) {
+templ Head(title string, nebulaVersion string) {
 	<head>
 		@Turnstile()
 		@Tailwind()

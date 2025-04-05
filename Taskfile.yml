@@ -11,7 +11,7 @@ tasks:
       - task: build:cosmes
       - task: build:shoelace
 
-  gen:
+  gen:templ:
     cmd: templ generate
     silent: true
 

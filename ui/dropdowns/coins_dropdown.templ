@@ -39,10 +39,7 @@ templ CoinsDropdown() {
 	<script>
 	  const select = document.querySelector('.custom-tag');
       select.getTag = (option, index) => {
-      // Use the same icon used in the <sl-option>
       const name = option.querySelector('sl-icon[slot="prefix"]').name;
-
-      // You can return a string, a Lit Template, or an HTMLElement here
       return `
         <sl-tag removable>
           <sl-icon name="${name}" library="crypto" style="padding-inline-end: .5rem;"></sl-icon>
