@@ -1,37 +1,39 @@
-# Card
+# `AccountCard`
 
-A card is a container that can hold any content.
+A card that displays a user's account information.
 
-## Attributes
+## Properties
 
-| Name       | Type     | Default | Description          |
-| ---------- | -------- | ------- | -------------------- |
-| `title`    | `string` | `''`    | The card's title.    |
-| `subtitle` | `string` | `''`    | The card's subtitle. |
-| `image`    | `string` | `''`    | The card's image.    |
 
-## Slots
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `Address` | `string` | The address of the user's account. |
+| `Name` | `string` | The name of the user. |
+| `Handle` | `string` | The handle of the user. |
+| `Block` | `string` | The block number of the user's account. |
 
-| Name    | Description       |
-| ------- | ----------------- |
-| `title` | The card's title. |
-| `image` | The card's image. |
-| `body`  | The card's body.  |
 
-## CSS Parts
+## Usage
 
-| Name       | Description              |
-| ---------- | ------------------------ |
-| `base`     | The card's base wrapper. |
-| `title`    | The card's title.        |
-| `subtitle` | The card's subtitle.     |
-| `image`    | The card's image.        |
-| `body`     | The card's body.         |
+```templ
+import "github.com/sonr-io/nebula/ui/cards"
 
-## Events
+templ View() {
+  @cards.AccountCard(cards.AccountCardData{
+    Address: "0x1234567890123456789012345678901234567890",
+    Name: "Sonr",
+    Handle: "sonr-io",
+    Block: "1234567890",
+  })
+}
+```
 
-| Event name | Description                  |
-| ---------- | ---------------------------- |
-| `sl-show`  | Emitted when the card opens. |
+---
 
-## Methods
+# `PermissionsCard`
+
+A card that displays a user's permissions requested by a Service.
+
+## Properties
+
+
