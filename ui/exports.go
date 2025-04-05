@@ -117,8 +117,8 @@ func formWithChildren(action, id string, children ...templ.Component) templ.Comp
 
 		// Render all children
 		for _, child := range children {
-			err := child.Render(ctx, w)
-			if err != nil {
+			errB := child.Render(ctx, w)
+			if errB != nil {
 				return err
 			}
 		}
