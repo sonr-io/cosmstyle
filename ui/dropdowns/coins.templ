@@ -1,4 +1,4 @@
-package input
+package dropdowns
 
 type Coin struct {
 	Ticker    string
@@ -23,7 +23,7 @@ var defaultCoins = []Coin{
 	{Ticker: "AXL", Name: "Axelar", IsDefault: false},
 }
 
-templ CoinSelect() {
+templ CoinsDropdown() {
 	<sl-select
 		label="Accounts"
 		name="selected_assets"

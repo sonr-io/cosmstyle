@@ -1,4 +1,4 @@
-package form
+package layouts
 
 templ Root(action, id string) {
 	<form method="GET" action={ templ.SafeURL(action) } id={ id } hx-post={ action } hx-target="#{ id }" hx-swap="outerHTML">
