@@ -117,10 +117,6 @@ templ generate
 go test ./...
 ```
 
-## Contributing
-
-Contributions are welcome! Please see our [Contributing Guide](../CONTRIBUTING.md) for more details.
-
 ## License
 
 MIT License
