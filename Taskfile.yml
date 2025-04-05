@@ -1,7 +1,21 @@
-# https://taskfile.dev
-
-version: '3'
+#yaml-language-server: $schema=https://json.schemastore.org/taskfile
+version: "3"
 tasks:
+  default:
+    cmds:
+      - task: build:cosmes
+      - task: build:shoelace
+
+  build:cosmes:
+    dir: packages/cosmes
+    cmds:
+      - devbox run build
+
+  build:shoelace:
+    dir: packages/shoelace
+    cmds:
+      - devbox run build
+
   templ-gen:
     cmds:
       - templ generate
@@ -27,26 +41,3 @@ tasks:
       - git add .
       - git commit -m "(chore) update build version [skip ci]"
       - git push
-
-  esclient:build:
-    dir: ./libs/es-client
-    cmds:
-      - devbox run build
-    silent: true
-
-  esclient:publish:
-    dir: ./libs/es-client
-    cmds:
-      - task: esclient:bump
-      - devbox run publish
-    silent: true
-
-  esclient:bump:
-    dir: ./libs/es-client
-    internal: true
-    cmds:
-      - devbox run bump
-      - git add .
-      - git commit -m "(chore) bump version"
-      - git push
-    silent: true

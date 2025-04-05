@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
+  "packages": [
+    "pnpm@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "pnpm install > /dev/null"
+    ],
+    "scripts": {
+      "build": [
+        "pnpm run gen:registry",
+        "pnpm run gen:protobufs",
+        "pnpm run build"
+      ],
+      "publish": [
+        "npm run publish"
+      ],
+      "generate": [
+        "pnpm run gen:registry",
+        "pnpm run gen:protobufs"
+      ]
+    }
+  }
+}
