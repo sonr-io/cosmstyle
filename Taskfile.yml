@@ -3,35 +3,30 @@ version: "3"
 tasks:
   default:
     cmds:
+      - task: gen
+      - task: build
+
+  build:
+    cmds:
       - task: build:cosmes
       - task: build:shoelace
 
+  gen:
+    cmds:
+      - templ generate
+    silent: true
+
   build:cosmes:
+    internal: true
     dir: packages/cosmes
     cmds:
       - devbox run build
 
   build:shoelace:
+    internal: true
     dir: packages/shoelace
     cmds:
       - devbox run build
-
-  templ-gen:
-    cmds:
-      - templ generate
-    silent: true
-
-  nebula:build:
-    dir: .
-    cmds:
-      - devbox run build
-    silent: true
-
-  nebula:publish:
-    dir: .
-    cmds:
-      - devbox run publish
-    silent: true
 
   nebula:bump:
     dir: .
