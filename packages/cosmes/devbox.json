@@ -14,7 +14,7 @@
         "pnpm run build"
       ],
       "publish": [
-        "npm run publish"
+        "npm publish"
       ],
       "generate": [
         "pnpm run gen:registry",

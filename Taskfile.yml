@@ -11,27 +11,38 @@ tasks:
       - task: build:cosmes
       - task: build:shoelace
 
+  publish:
+    cmds:
+      - task: publish:cosmes
+      - task: publish:shoelace
+
   gen:templ:
     cmd: templ generate
-    silent: true
 
   test:
     cmds:
       - go test -v ./...
 
   bump:
-    internal: true
     cmds:
       - devbox run bump
 
   build:cosmes:
-    internal: true
     dir: packages/cosmes
     cmds:
       - devbox run build
 
   build:shoelace:
-    internal: true
     dir: packages/shoelace
     cmds:
       - devbox run build
+
+  publish:cosmes:
+    dir: packages/cosmes
+    cmds:
+      - devbox run publish
+
+  publish:shoelace:
+    dir: packages/shoelace
+    cmds:
+      - devbox run publish

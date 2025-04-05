@@ -1,8 +1,10 @@
 {
-  "name": "@sonr.io/shoelace",
+  "name": "cosmstyle",
   "description": "A specialized fork of Shoelace customized for the Sonr Network, focusing on cryptocurrency and blockchain interfaces.",
   "version": "0.0.1",
   "homepage": "https://cosm.style",
+  "private": false,
+  "packageManager": "pnpm@8.3.0",
   "author": "Prad <prad@sonr.io>",
   "license": "MIT",
   "customElements": "dist/custom-elements.json",
