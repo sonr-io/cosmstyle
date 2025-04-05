@@ -1,84 +1,126 @@
-# Turborepo starter
+# Nebula UI Components
 
-This Turborepo starter is maintained by the Turborepo core team.
+A comprehensive library of Golang [Templ](https://templ.guide/) components for building modern, type-safe web applications with a focus on blockchain interfaces.
 
-## Using this example
+## Overview
 
-Run the following command:
+The Nebula UI library provides a collection of reusable, accessible, and type-safe components designed to work seamlessly with Go's server-side rendering. Built with Templ, these components offer strong typing and efficient rendering for web applications.
 
-```sh
-npx create-turbo@latest
+## Installation
+
+```bash
+go get github.com/sonr-io/nebula/ui
 ```
 
-## What's inside?
+## Usage
 
-This Turborepo includes the following packages/apps:
+Import components directly from their respective packages:
 
-### Apps and Packages
+```go
+import (
+    "github.com/sonr-io/nebula/ui/cards"
+    "github.com/sonr-io/nebula/ui/inputs"
+    // other component categories
+)
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+// In your HTTP handler
+func handler(w http.ResponseWriter, r *http.Request) {
+    // Example using AccountCard
+    card := cards.AccountCard(cards.AccountCardData{
+        Address: "sonr1abcd...",
+        Name: "User Name",
+        Handle: "@handle",
+        Block: "42069"
+    })
+    
+    // Render the component
+    card.Render(r.Context(), w)
+}
 ```
 
-### Develop
+## Component Categories
 
-To develop all apps and packages, run the following command:
+### Cards
 
+Display content in boxed card layouts.
+
+| Component | Description | Props |
+|-----------|-------------|-------|
+| `AccountCard` | Displays account information | `Address`, `Name`, `Handle`, `Block` |
+
+### Inputs
+
+Form input components for user interaction.
+
+| Component | Description | Props |
+|-----------|-------------|-------|
+| `HandleInput` | Input field for user handles | `State`, `Placeholder`, `Value` |
+
+### Layouts
+
+Components for page and content structure.
+
+| Component | Description | Props |
+|-----------|-------------|-------|
+| `Container` | Basic container with padding | `Width`, `MaxWidth` |
+| `Grid` | Responsive grid layout | `Columns`, `Gap` |
+| `Stack` | Vertical or horizontal stack | `Direction`, `Gap`, `Align` |
+
+### Navigation
+
+Components for site navigation.
+
+| Component | Description | Props |
+|-----------|-------------|-------|
+| `Navbar` | Top navigation bar | `Title`, `Links` |
+| `Sidebar` | Side navigation panel | `Items`, `Collapsed` |
+| `TabGroup` | Tab-based navigation | `Tabs`, `ActiveTab` |
+
+### Feedback
+
+Components for user feedback.
+
+| Component | Description | Props |
+|-----------|-------------|-------|
+| `Alert` | Contextual feedback messages | `Type`, `Message` |
+| `Toast` | Temporary notifications | `Type`, `Message`, `Duration` |
+| `Progress` | Progress indicators | `Value`, `Max`, `ShowLabel` |
+
+### Data Display
+
+Components for displaying data.
+
+| Component | Description | Props |
+|-----------|-------------|-------|
+| `Table` | Data tables | `Headers`, `Rows` |
+| `List` | Ordered and unordered lists | `Items`, `Ordered` |
+| `Tag` | Label elements | `Label`, `Color` |
+
+## Development
+
+### Prerequisites
+
+- Go 1.21+
+- Templ CLI
+
+### Generating Components
+
+After modifying `.templ` files, generate the Go code:
+
+```bash
+templ generate
 ```
-cd my-turborepo
-pnpm dev
+
+### Testing
+
+```bash
+go test ./...
 ```
 
-### Remote Caching
+## Contributing
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+Contributions are welcome! Please see our [Contributing Guide](../CONTRIBUTING.md) for more details.
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+## License
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+MIT License
