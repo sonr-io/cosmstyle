@@ -15,6 +15,10 @@ tasks:
     cmd: templ generate
     silent: true
 
+  test:
+    cmds:
+      - go test -v ./...
+
   bump:
     internal: true
     cmds:

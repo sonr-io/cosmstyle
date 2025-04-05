@@ -114,7 +114,7 @@ func formWithChildren(action, id string, children ...templ.Component) templ.Comp
 		if err != nil {
 			return err
 		}
-		
+
 		// Render all children
 		for _, child := range children {
 			err := child.Render(ctx, w)
@@ -122,7 +122,7 @@ func formWithChildren(action, id string, children ...templ.Component) templ.Comp
 				return err
 			}
 		}
-		
+
 		// Close the form tag
 		_, err = io.WriteString(w, "</form>")
 		return err

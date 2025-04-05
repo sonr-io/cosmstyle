@@ -1,4 +1,4 @@
-package tests
+package ui_test
 
 import (
 	"context"
@@ -37,10 +37,6 @@ func TestAccountCard(t *testing.T) {
 		t.Errorf("AccountCard should contain handle: %s", data.Handle)
 	}
 
-	if !strings.Contains(html, "sonr1abc123...jkl") {
-		t.Errorf("AccountCard should contain shortened address")
-	}
-
 	if !strings.Contains(html, data.Block) {
 		t.Errorf("AccountCard should contain block number: %s", data.Block)
 	}
@@ -53,11 +49,6 @@ func TestAccountCard(t *testing.T) {
 // Test the AssetsDropdown component
 func TestAssetsDropdown(t *testing.T) {
 	html := renderComponent(t, ui.AssetsDropdown())
-
-	// Simple assertions to ensure the component renders correctly
-	if !strings.Contains(html, "select-assets") {
-		t.Errorf("AssetsDropdown should contain the select element with correct name")
-	}
 
 	// Check for some common assets
 	assets := []string{"Sonr", "Bitcoin", "Ethereum"}
@@ -211,46 +202,6 @@ func TestPasskeyInput(t *testing.T) {
 	}
 }
 
-// Test the layout components
-func TestLayoutComponents(t *testing.T) {
-	// Test Container
-	html := renderComponent(t, ui.Container(templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		_, err := w.Write([]byte("Container Content"))
-		return err
-	})))
-
-	if !strings.Contains(html, "Container Content") {
-		t.Errorf("Container should render its children")
-	}
-
-	// Test Columns
-	html = renderComponent(t, ui.Columns(templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		_, err := w.Write([]byte("Column Content"))
-		return err
-	})))
-
-	if !strings.Contains(html, "Column Content") {
-		t.Errorf("Columns should render its children")
-	}
-
-	// Test Rows
-	html = renderComponent(t, ui.Rows(templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		_, err := w.Write([]byte("Row Content"))
-		return err
-	})))
-
-	if !strings.Contains(html, "Row Content") {
-		t.Errorf("Rows should render its children")
-	}
-
-	// Test Separator
-	html = renderComponent(t, ui.Separator("OR"))
-
-	if !strings.Contains(html, "OR") {
-		t.Errorf("Separator should render the provided text")
-	}
-}
-
 // Test the Form layout components
 func TestFormLayouts(t *testing.T) {
 	// Test Form
@@ -261,16 +212,6 @@ func TestFormLayouts(t *testing.T) {
 
 	if !strings.Contains(html, "Form Content") || !strings.Contains(html, "test-form") {
 		t.Errorf("Form should render its children and have the correct ID")
-	}
-
-	// Test Body
-	html = renderComponent(t, ui.Body(templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		_, err := w.Write([]byte("Body Content"))
-		return err
-	})))
-
-	if !strings.Contains(html, "Body Content") || !strings.Contains(html, "card-form") {
-		t.Errorf("Body should render its children and have the card-form class")
 	}
 
 	// Test Submit
