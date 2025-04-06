@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/a-h/templ"
-	"github.com/sonr-io/nebula/ui"
+	"github.com/sonr-io/cosmstyle/ui"
 )
 
 // Helper function to render components to string

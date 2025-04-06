@@ -1,4 +1,4 @@
-module github.com/sonr-io/nebula
+module github.com/sonr-io/cosmstyle
 
 go 1.24.1
 

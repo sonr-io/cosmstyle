@@ -19,7 +19,7 @@ This monorepo includes several packages organized for building cohesive blockcha
 Our Golang Templ components provide type-safe, efficient server-side rendering:
 
 ```go
-import "github.com/sonr-io/design-system/ui/cards"
+import "github.com/sonr-io/cosmstyle/ui/cards"
 
 // In your handler
 func renderProfilePage(w http.ResponseWriter, r *http.Request) {

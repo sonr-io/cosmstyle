@@ -7,10 +7,10 @@ import (
 	"io"
 
 	"github.com/a-h/templ"
-	"github.com/sonr-io/nebula/ui/cards"
-	"github.com/sonr-io/nebula/ui/dropdowns"
-	"github.com/sonr-io/nebula/ui/inputs"
-	"github.com/sonr-io/nebula/ui/layouts"
+	"github.com/sonr-io/cosmstyle/ui/cards"
+	"github.com/sonr-io/cosmstyle/ui/dropdowns"
+	"github.com/sonr-io/cosmstyle/ui/inputs"
+	"github.com/sonr-io/cosmstyle/ui/layouts"
 )
 
 // ╭──────────────────────────────────────────────────────────╮
