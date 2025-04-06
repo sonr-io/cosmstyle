@@ -1,48 +1,112 @@
 #yaml-language-server: $schema=https://json.schemastore.org/taskfile
 version: "3"
+interval: 1s
+silent: true
 tasks:
   default:
     cmds:
       - task: gen
       - task: build
 
+  test:
+    cmds:
+      - go test -v ./...
+
   build:
     cmds:
       - task: build:cosmes
       - task: build:shoelace
+  dev:
+    watch: true
+    sources:
+      - "**/*.templ"
+    generates:
+      - "**/_templ.go"
+    cmds:
+      - task: gen
+      - go run ./example/main.go
+
+  gen:templ:
+    aliases:
+      - gen
+      - g
+    sources:
+      - "**/*.templ"
+    generates:
+      - "**/_templ.go"
+    cmd: templ generate
+
+  build:cosmes:
+    dir: packages/cosmes
+    preconditions:
+      - sh: command -v pnpm
+    sources:
+      - "**/*.ts"
+      - "**/*.js"
+    generates:
+      - dist
+    deps:
+      - task: install:cosmes
+    cmds:
+      - pnpm run gen:registry
+      - pnpm run gen:protobufs
+      - pnpm run build
+
+  build:shoelace:
+    dir: packages/shoelace
+    preconditions:
+      - sh: command -v pnpm
+    sources:
+      - "**/*.ts"
+      - "**/*.js"
+    generates:
+      - dist
+      - cdn
+    deps:
+      - task: install:shoelace
+    cmds:
+      - pnpm run minify
+      - pnpm run build
+
+  publish:cosmes:
+    dir: packages/cosmes
+    preconditions:
+      - sh: command -v npm
+    cmds:
+      - npm publish
+
+  publish:shoelace:
+    dir: packages/shoelace
+    preconditions:
+      - sh: command -v npm
+    cmds:
+      - npm publish
+
+  install:cosmes:
+    dir: packages/cosmes
+    preconditions:
+      - sh: command -v pnpm
+    sources:
+      - package.json
+    generates:
+      - pnpm-lock.yaml
+      - node_modules
+    cmds:
+      - pnpm install
+
+  install:shoelace:
+    dir: packages/shoelace
+    preconditions:
+      - sh: command -v pnpm
+    sources:
+      - package.json
+    generates:
+      - pnpm-lock.yaml
+      - node_modules
+    cmds:
+      - pnpm install
 
   publish:
     cmds:
       - task: publish:cosmes
       - task: publish:shoelace
-
-  gen:templ:
-    cmd: templ generate
-
-  test:
-    cmds:
-      - go test -v ./...
-
-  bump:
-    cmds:
-      - devbox run bump
-
-  build:cosmes:
-    dir: packages/cosmes
-    cmds:
-      - devbox run build
-
-  build:shoelace:
-    dir: packages/shoelace
-    cmds:
-      - devbox run build
-
-  publish:cosmes:
-    dir: packages/cosmes
-    cmds:
-      - devbox run publish
-
-  publish:shoelace:
-    dir: packages/shoelace
-    cmds:
-      - devbox run publish
