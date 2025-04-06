@@ -26,9 +26,7 @@ templ timeComponent(d time.Time, acc info.AccountInfo) {
 			@blocks.MetaComponent(meta)
 		}
 		@ui.Body() {
-			@ui.Container() {
-				@blocks.AccountInfoCard(acc)
-			}
+			@blocks.AccountInfoCard(acc)
 		}
 	}
 }
