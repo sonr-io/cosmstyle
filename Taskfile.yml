@@ -1,6 +1,5 @@
 #yaml-language-server: $schema=https://json.schemastore.org/taskfile
 version: "3"
-interval: 1s
 silent: true
 tasks:
   default:
@@ -16,15 +15,11 @@ tasks:
     cmds:
       - task: build:cosmes
       - task: build:shoelace
+      - task: build:example
+
   dev:
-    watch: true
-    sources:
-      - "**/*.templ"
-    generates:
-      - "**/_templ.go"
     cmds:
-      - task: gen
-      - go run ./example/main.go
+      - air
 
   gen:templ:
     aliases:
@@ -34,7 +29,9 @@ tasks:
       - "**/*.templ"
     generates:
       - "**/_templ.go"
-    cmd: templ generate
+    cmds:
+      - templ generate
+      - gum log --level info --time kitchen "[UI] Templ files generated"
 
   build:cosmes:
     dir: packages/cosmes
@@ -48,9 +45,12 @@ tasks:
     deps:
       - task: install:cosmes
     cmds:
-      - pnpm run gen:registry
-      - pnpm run gen:protobufs
-      - pnpm run build
+      - gum spin --spinner dot --title "Generating Chain Registry..." -- pnpm run gen:registry
+      - gum log --level info --time kitchen "[COSMES] Chain Registry generated"
+      - gum spin --spinner dot --title "Generating Go from Templ..." -- pnpm run gen:protobufs
+      - gum log --level info --time kitchen "[COSMES] Protobufs generated"
+      - gum spin --spinner dot --title "Generating Go from Templ..." -- pnpm run build
+      - gum log --level info --time kitchen "[COSMES] Packages built"
 
   build:shoelace:
     dir: packages/shoelace
@@ -65,8 +65,21 @@ tasks:
     deps:
       - task: install:shoelace
     cmds:
-      - pnpm run minify
-      - pnpm run build
+      - gum spin --spinner dot --title "Minifying Icon Set..." -- pnpm run minify
+      - gum log --level info --time kitchen "[SHOELACE] Compressed Icon Set"
+      - gum spin --spinner dot --title "Building Web Components..." -- pnpm run build
+      - gum log --level info --time kitchen "[SHOELACE] Web Components built"
+
+  run:example:
+    dir: example
+    sources:
+      - "**/*.templ"
+      - "**/*.go"
+    generates:
+      - "**/_templ.go"
+    cmds:
+      - gum log --level info --time kitchen "[EXAMPLE] Running at http://localhost:8080"
+      - go run ./main.go
 
   publish:cosmes:
     dir: packages/cosmes
@@ -105,6 +118,13 @@ tasks:
       - node_modules
     cmds:
       - pnpm install
+
+  install:example:
+    preconditions:
+      - sh: command -v go
+    cmds:
+      - go install github.com/air-verse/air@latest
+      - go mod tidy
 
   publish:
     cmds:

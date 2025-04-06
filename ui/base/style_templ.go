@@ -13,8 +13,10 @@ var (
 	tailwindHandle = templ.NewOnceHandle()
 )
 
+const nebulaVersion = "0.0.1"
+
 // Nebula is a component that renders the Nebula.js library
-func Shoelace(version string) templ.Component {
+func shoelace() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -40,9 +42,9 @@ func Shoelace(version string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(jsDelivrURL("sonr-shoelace", version, "cdn/themes/light.css"))
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(jsDelivrURL("sonr-shoelace", nebulaVersion, "cdn/themes/light.css"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/base/style.templ`, Line: 13, Col: 70}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/base/style.templ`, Line: 15, Col: 76}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -53,9 +55,9 @@ func Shoelace(version string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(jsDelivrURL("sonr-shoelace", version, "cdn/themes/dark.css"))
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(jsDelivrURL("sonr-shoelace", nebulaVersion, "cdn/themes/dark.css"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/base/style.templ`, Line: 18, Col: 69}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/base/style.templ`, Line: 20, Col: 75}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -82,9 +84,9 @@ func Shoelace(version string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(jsDelivrURL("sonr-shoelace", version, "cdn/shoelace-autoloader.js"))
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(jsDelivrURL("sonr-shoelace", nebulaVersion, "cdn/shoelace-autoloader.js"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/base/style.templ`, Line: 22, Col: 97}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/base/style.templ`, Line: 24, Col: 103}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -105,7 +107,7 @@ func Shoelace(version string) templ.Component {
 }
 
 // Tailwind css dependencies
-func Tailwind() templ.Component {
+func tailwind() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -145,6 +147,35 @@ func Tailwind() templ.Component {
 			return nil
 		})
 		templ_7745c5c3_Err = tailwindHandle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func defaultStyles() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var8 == nil {
+			templ_7745c5c3_Var8 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<style>\n   \t\t@keyframes fade-in {\n     \t\tfrom { opacity: 0; }\n   \t\t}\n\n   \t\t@keyframes fade-out {\n     \t\tto { opacity: 0; }\n   \t\t}\n\n   \t\t@keyframes slide-from-right {\n     \t\tfrom { transform: translateX(90px); }\n   \t\t}\n\n   \t\t@keyframes slide-to-left {\n     \t\tto { transform: translateX(-90px); }\n   \t\t}\n\n   \t\t.slide-it {\n     \t\tview-transition-name: slide-it;\n   \t\t}\n\n   \t\t::view-transition-old(slide-it) {\n     \t\tanimation: 180ms cubic-bezier(0.4, 0, 1, 1) both fade-out,\n     \t\t600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;\n   \t\t}\n   \t\t::view-transition-new(slide-it) {\n     \t\tanimation: 420ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,\n     \t\t600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;\n   \t\t}\n\t\t</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

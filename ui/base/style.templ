@@ -5,28 +5,63 @@ var (
 	tailwindHandle = templ.NewOnceHandle()
 )
 
+const nebulaVersion = "0.0.1"
+
 // Nebula is a component that renders the Nebula.js library
-templ Shoelace(version string) {
+templ shoelace() {
 	<link
 		rel="stylesheet"
 		media="(prefers-color-scheme:light)"
-		href={ jsDelivrURL("sonr-shoelace", version, "cdn/themes/light.css") }
+		href={ jsDelivrURL("sonr-shoelace", nebulaVersion, "cdn/themes/light.css") }
 	/>
 	<link
 		rel="stylesheet"
 		media="(prefers-color-scheme:dark)"
-		href={ jsDelivrURL("sonr-shoelace", version, "cdn/themes/dark.css") }
+		href={ jsDelivrURL("sonr-shoelace", nebulaVersion, "cdn/themes/dark.css") }
 		onload="document.documentElement.classList.add('sl-theme-dark');"
 	/>
 	@shoelaceHandle.Once() {
-		<script type="module" src={ jsDelivrURL("sonr-shoelace", version, "cdn/shoelace-autoloader.js") }></script>
+		<script type="module" src={ jsDelivrURL("sonr-shoelace", nebulaVersion, "cdn/shoelace-autoloader.js") }></script>
 	}
 }
 
 // Tailwind css dependencies
-templ Tailwind() {
+templ tailwind() {
 	@tailwindHandle.Once() {
 		<script src="https://cdn.tailwindcss.com?plugins=typography,aspect-ratio,container-queries"></script>
 		<script src="https://kit.fontawesome.com/9909219bb5.js" crossorigin="anonymous"></script>
 	}
+}
+
+templ defaultStyles() {
+	<style>
+   		@keyframes fade-in {
+     		from { opacity: 0; }
+   		}
+
+   		@keyframes fade-out {
+     		to { opacity: 0; }
+   		}
+
+   		@keyframes slide-from-right {
+     		from { transform: translateX(90px); }
+   		}
+
+   		@keyframes slide-to-left {
+     		to { transform: translateX(-90px); }
+   		}
+
+   		.slide-it {
+     		view-transition-name: slide-it;
+   		}
+
+   		::view-transition-old(slide-it) {
+     		animation: 180ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+     		600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+   		}
+   		::view-transition-new(slide-it) {
+     		animation: 420ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+     		600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+   		}
+		</style>
 }

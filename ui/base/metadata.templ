@@ -3,6 +3,7 @@ package base
 type Metadata struct {
 	Title          string
 	Author         string
+	Favicon        string
 	Robots         string
 	Googlebot      string
 	Google         string
@@ -21,6 +22,7 @@ func DefaultMetadata() Metadata {
 	return Metadata{
 		Title:          "Sonr",
 		Author:         "Sonr",
+		Favicon:        "https://cdn.sonr.id/favicon.png",
 		Robots:         "index, follow",
 		Googlebot:      "index, follow",
 		Google:         "nositelinkssearchbox",
@@ -36,7 +38,14 @@ func DefaultMetadata() Metadata {
 	}
 }
 
-templ HeadMetadata(m Metadata) {
+// Apply returns a component that renders the meta tags
+func (m Metadata) Apply() templ.Component {
+	return metaComponent(m)
+}
+
+templ metaComponent(m Metadata) {
+	<title>{ m.Title }</title>
+	<link rel="icon" type="image/png" href={ m.Favicon }/>
 	<meta name="description" content={ m.Description }/>
 	<meta name="keywords" content={ m.Keywords }/>
 	<meta name="author" content={ m.Author }/>
@@ -56,4 +65,12 @@ templ HeadMetadata(m Metadata) {
 	<meta name="twitter:title" content={ m.Title }/>
 	<meta name="twitter:description" content={ m.Description }/>
 	<meta name="twitter:image" content={ m.TwitterImage }/>
+}
+
+templ defaultMetaTags() {
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 }

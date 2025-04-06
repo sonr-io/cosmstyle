@@ -1,0 +1,31 @@
+package pages
+
+import (
+	"github.com/sonr-io/cosmstyle/ui/base"
+	"github.com/sonr-io/cosmstyle/ui/cards"
+	"time"
+)
+
+var meta = base.DefaultMetadata()
+
+templ TimeComponent(d time.Time) {
+	@base.HTML() {
+		@base.Head() {
+			@meta.Apply()
+		}
+		@base.Body() {
+			@base.Container() {
+				@cards.AccountCard(cards.AccountCardData{
+					Address: "sonr1q9u8t9a5c8e8h9f9g9h9i9j9k9l9m9n9o9p9q9r9s9t9u9v9w9x9y9z9a",
+					Name:    "Sonr",
+					Handle:  "sonr-testnet-1",
+					Block:   "1234567890",
+				})
+			}
+		}
+	}
+}
+
+templ NotFoundComponent() {
+	<div>404 - Not found</div>
+}
