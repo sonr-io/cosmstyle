@@ -3,28 +3,11 @@ package head
 import "fmt"
 
 var (
-	nebulaHandle    = templ.NewOnceHandle()
-	tailwindHandle  = templ.NewOnceHandle()
 	alpineHandle    = templ.NewOnceHandle()
 	dexieHandle     = templ.NewOnceHandle()
 	htmxHandle      = templ.NewOnceHandle()
 	turnstileHandle = templ.NewOnceHandle()
 )
-
-// Tailwind css dependencies
-templ Tailwind() {
-	@tailwindHandle.Once() {
-		<script src="https://cdn.tailwindcss.com?plugins=typography,aspect-ratio,container-queries"></script>
-		<script src="https://kit.fontawesome.com/9909219bb5.js" crossorigin="anonymous"></script>
-	}
-}
-
-// Turnstile is used for cloudflare challenges
-templ Turnstile() {
-	@turnstileHandle.Once() {
-		<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-	}
-}
 
 // Alpine is a component that renders the Alpine.js library
 templ Alpine() {
@@ -54,24 +37,13 @@ templ Htmx() {
 	}
 }
 
-// Nebula is a component that renders the Nebula.js library
-templ Nebula(version string) {
-	<link
-		rel="stylesheet"
-		media="(prefers-color-scheme:light)"
-		href={ jsDelivrURL("@onsonr/nebula", version, "cdn/themes/light.css") }
-	/>
-	<link
-		rel="stylesheet"
-		media="(prefers-color-scheme:dark)"
-		href={ jsDelivrURL("@onsonr/nebula", version, "cdn/themes/dark.css") }
-		onload="document.documentElement.classList.add('sl-theme-dark');"
-	/>
-	@nebulaHandle.Once() {
-		<script type="module" src={ jsDelivrURL("cosmstyle", version, "cdn/shoelace-autoloader.js") }></script>
+// Turnstile is used for cloudflare challenges
+templ Turnstile() {
+	@turnstileHandle.Once() {
+		<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 	}
 }
 
 func jsDelivrURL(pkg string, version string, path string) string {
-	return fmt.Sprintf("https://cdn.jsdelivr.net/npm/%s@%s/%s", pkg, version, path)
+	return fmt.Sprintf("https://cdn.jsdelivr.net/npm/%s/%s/%s", pkg, version, path)
 }

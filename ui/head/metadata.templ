@@ -1,0 +1,59 @@
+package head
+
+type Metadata struct {
+	Title          string
+	Author         string
+	Robots         string
+	Googlebot      string
+	Google         string
+	Description    string
+	Keywords       string
+	CanonicalURL   string
+	OGImage        string
+	OGURL          string
+	OGSiteName     string
+	TwitterSite    string
+	TwitterCreator string
+	TwitterImage   string
+}
+
+func DefaultMetadata() Metadata {
+	return Metadata{
+		Title:          "Sonr",
+		Author:         "Sonr",
+		Robots:         "index, follow",
+		Googlebot:      "index, follow",
+		Google:         "nositelinkssearchbox",
+		Description:    "Sonr is a decentralized social network that allows you to create your own personalized digital identity.",
+		Keywords:       "Sonr, social network, decentralized, identity, decentralized social network, decentralized identity, self-sovereign identity, self-sovereign, self-sovereign social network, self-sovereign identity network, sso, sso network, sso identity, sso social network, digital identity, digital social network",
+		CanonicalURL:   "https://sonr.io",
+		OGImage:        "https://cdn.sonr.id/og.png",
+		OGURL:          "https://sonr.io",
+		OGSiteName:     "Sonr",
+		TwitterSite:    "@sonr_io",
+		TwitterCreator: "@sonr_io",
+		TwitterImage:   "https://cdn.sonr.id/og.png",
+	}
+}
+
+templ HeadMetadata(m Metadata) {
+	<meta name="description" content={ m.Description }/>
+	<meta name="keywords" content={ m.Keywords }/>
+	<meta name="author" content={ m.Author }/>
+	<meta name="robots" content={ m.Robots }/>
+	<meta name="googlebot" content={ m.Googlebot }/>
+	<meta name="google" content={ m.Google }/>
+	<meta property="og:title" content={ m.Title }/>
+	<meta property="og:description" content={ m.Description }/>
+	<meta property="og:image" content={ m.OGImage }/>
+	<meta property="og:url" content={ m.OGURL }/>
+	<meta property="og:site_name" content={ m.OGSiteName }/>
+	<meta property="og:type" content="website"/>
+	<meta property="og:locale" content="en_US"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta name="twitter:site" content={ m.TwitterSite }/>
+	<meta name="twitter:creator" content={ m.TwitterCreator }/>
+	<meta name="twitter:title" content={ m.Title }/>
+	<meta name="twitter:description" content={ m.Description }/>
+	<meta name="twitter:image" content={ m.TwitterImage }/>
+}
