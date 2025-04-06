@@ -1,0 +1,47 @@
+package ui
+
+import "fmt"
+
+var (
+	d3Handle    = templ.NewOnceHandle()
+	dexieHandle = templ.NewOnceHandle()
+	heliaHandle = templ.NewOnceHandle()
+	htmxHandle  = templ.NewOnceHandle()
+)
+
+// dexie is a component that renders the Dexie.js library
+templ dexie() {
+	@dexieHandle.Once() {
+		<script src={ jsDelivrURL("dexie", "4.0.10", "dist/dexie.min.js") }></script>
+		<script src={ jsDelivrURL("dexie-export-import", "4.1.4", "dist/dexie-export-import.min.js") }></script>
+	}
+}
+
+templ d3() {
+	@d3Handle.Once() {
+		<script src={ jsDelivrURL("d3", "7.8.5", "dist/d3.min.js") }></script>
+	}
+}
+
+// dexie is a component that renders the Dexie.js library
+templ helia() {
+	@heliaHandle.Once() {
+		<script src="https://unpkg.com/helia/dist/index.min.js"></script>
+	}
+}
+
+// Htmx is a component that renders the Htmx.js library
+templ htmx() {
+	@htmxHandle.Once() {
+		<script src={ jsDelivrURL("htmx.org", "1.9.12", "dist/htmx.min.js") }></script>
+		<script src={ jsDelivrURL("htmx-ext-include-vals", "2.0.0", "include-vals.min.js") }></script>
+		<script src={ jsDelivrURL("htmx-ext-path-params", "2.0.0", "path-params.min.js") }></script>
+		<script src={ jsDelivrURL("htmx-ext-alpine-morph", "2.0.0", "alpine-morph.min.js") }></script>
+		<script src={ jsDelivrURL("htmx-ext-sse", "2.2.2", "sse.min.js") }></script>
+		<script src={ jsDelivrURL("htmx-ext-ws", "2.0.2", "ws.min.js") }></script>
+	}
+}
+
+func jsDelivrURL(pkg string, version string, path string) string {
+	return fmt.Sprintf("https://cdn.jsdelivr.net/npm/%s/%s/%s", pkg, version, path)
+}
