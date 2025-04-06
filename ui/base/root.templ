@@ -1,6 +1,6 @@
-package head
+package base
 
-templ Root(title string, nebulaVersion string, deps ...templ.Component) {
+templ Head(title string, nebulaVersion string, deps ...templ.Component) {
 	<head>
 		for _, d := range deps {
 			@d
