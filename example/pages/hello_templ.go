@@ -9,10 +9,10 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
+	"github.com/sonr-io/cosmstyle/models/html"
+	"github.com/sonr-io/cosmstyle/models/info"
 	"github.com/sonr-io/cosmstyle/ui"
 	"github.com/sonr-io/cosmstyle/ui/blocks"
-	"github.com/sonr-io/cosmstyle/ui/models/html"
-	"github.com/sonr-io/cosmstyle/ui/models/info"
 	"time"
 )
 
