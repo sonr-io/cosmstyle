@@ -5,11 +5,9 @@ tmp_dir = "tmp"
 # Array of commands to run before each build
 pre_cmd = ["templ generate"]
 # Just plain old shell command. You could use `make` as well.
-cmd = "go build -o ./tmp/main ."
+cmd = "task build:example"
 # Binary file yields from `cmd`.
-bin = "tmp/main"
-# Customize binary, can setup environment variables when run your app.
-full_bin = "APP_ENV=dev APP_USER=air ./tmp/main"
+bin = "example/tmp/main"
 # Add additional arguments when running binary (bin/full_bin). Will run './tmp/main hello world'.
 args_bin = []
 # Watch these filename extensions.
@@ -17,13 +15,13 @@ include_ext = ["go", "tpl", "templ", "html"]
 # Ignore these filename extensions or directories.
 exclude_dir = ["assets", "tmp", "vendor", "packages"]
 # Watch these directories if you specified.
-include_dir = ["pages"]
+include_dir = ["example", "forms", "models", "ui"]
 # Watch these files.
 include_file = []
 # Exclude files.
 exclude_file = []
 # Exclude specific regular expressions.
-exclude_regex = ["_test\\.go", "templ_\\.go"]
+exclude_regex = ["_test\\.go"]
 # Exclude unchanged files.
 exclude_unchanged = true
 # Follow symlink for directories
@@ -31,17 +29,17 @@ follow_symlink = true
 # This log file is placed in your tmp_dir.
 log = "air.log"
 # Poll files for changes instead of using fsnotify.
-poll = true
+poll = false
 # Poll interval (defaults to the minimum interval of 500ms).
 poll_interval = 500 # ms
 # It's not necessary to trigger build each time file changes if it's too frequent.
 delay = 200 # ms
 # Stop running old binary when build errors occur.
-stop_on_error = true
+stop_on_error = false
 # Send Interrupt signal before killing process (windows does not support this feature)
 send_interrupt = true
 # Delay after sending Interrupt signal
-kill_delay = 1500 # nanosecond
+kill_delay = 0 # nanosecond
 # Rerun binary or not
 rerun = false
 # Delay after each execution

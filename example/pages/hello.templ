@@ -25,11 +25,24 @@ templ timeComponent(d time.Time, acc info.AccountInfo) {
 		@ui.Head() {
 			@blocks.MetaComponent(meta)
 		}
-		@ui.Body() {
-			@ui.Container() {
-				@blocks.HeliaFullDashboard()
+		<sl-tab-group>
+			@ui.Nav() {
+				@ui.NavLeft() {
+					@ui.NavLogo("Example")
+				}
+				@ui.NavRight() {
+					<sl-tab slot="nav" panel="tab-1">Time</sl-tab>
+					<sl-tab slot="nav" panel="tab-2">Account</sl-tab>
+				}
 			}
-		}
+			@ui.Body() {
+				<sl-tab-panel name="tab-1" active>
+					@ui.Container() {
+						@blocks.HeliaFullDashboard()
+					}
+				</sl-tab-panel>
+			}
+		</sl-tab-group>
 	}
 }
 

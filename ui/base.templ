@@ -57,6 +57,39 @@ templ Icon(i html.Icon) {
 	<sl-icon library={ i.Library } name={ i.Name }></sl-icon>
 }
 
+templ Nav() {
+	<nav class="absolute inset-x-0 top-0 z-[100] flex h-16 w-full items-center justify-between px-4 py-4 sm:px-6 md:px-8">
+		{ children... }
+	</nav>
+}
+
+templ NavCTA(href string, text string) {
+	<sl-button type="primary" href={ href }>{ text }</sl-button>
+}
+
+templ NavItem(href string, text string) {
+	<sl-button type="text" href={ href }>{ text }</sl-button>
+}
+
+templ NavLogo(title string) {
+	<a href="/" class="flex items-center gap-2">
+		{ children... }
+		<span class="text-xl font-bold">{ title }</span>
+	</a>
+}
+
+templ NavLeft() {
+	<div class="flex items-center gap-4">
+		{ children... }
+	</div>
+}
+
+templ NavRight() {
+	<div class="flex items-center gap-4">
+		{ children... }
+	</div>
+}
+
 // Rows is a component that renders a responsive flex container that wraps on mobile
 templ Rows() {
 	<div class="flex flex-col w-full gap-3 sm:flex-row sm:flex-wrap sm:gap-4">

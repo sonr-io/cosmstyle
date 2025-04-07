@@ -81,11 +81,10 @@ tasks:
       - gum spin --spinner dot --title "Building Web Components..." -- pnpm run build
       - gum log --level info --time kitchen "[SHOELACE] Web Components built"
 
-  run:example:
+  build:example:
     dir: example
     cmds:
-      - gum log --level info --time kitchen "[EXAMPLE] Running at http://localhost:8080"
-      - go run ./main.go
+      - gum spin --spinner dot --title "Building Example..." -- go build -o ./tmp/main .
 
   publish:cosmes:
     dir: packages/cosmes
