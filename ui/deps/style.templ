@@ -1,40 +1,38 @@
-package ui
+package deps
 
 var (
-	shoelaceHandle = templ.NewOnceHandle()
 	tailwindHandle = templ.NewOnceHandle()
 )
 
-const nebulaVersion = "0.0.1"
-
-// Nebula is a component that renders the Nebula.js library
-templ shoelace() {
+// Shoelace dependencies
+templ Shoelace() {
 	<link
 		rel="stylesheet"
 		media="(prefers-color-scheme:light)"
-		href={ jsDelivrURL("sonr-shoelace", nebulaVersion, "cdn/themes/light.css") }
+		href="https://cdn.jsdelivr.net/npm/sonr-shoelace/cdn/themes/light.css"
 	/>
 	<link
 		rel="stylesheet"
 		media="(prefers-color-scheme:dark)"
-		href={ jsDelivrURL("sonr-shoelace", nebulaVersion, "cdn/themes/dark.css") }
+		href="https://cdn.jsdelivr.net/npm/sonr-shoelace/cdn/themes/dark.css"
 		onload="document.documentElement.classList.add('sl-theme-dark');"
 	/>
-	@shoelaceHandle.Once() {
-		<script type="module" src={ jsDelivrURL("sonr-shoelace", nebulaVersion, "cdn/shoelace-autoloader.js") }></script>
-	}
+	<script type="module" src="https://cdn.jsdelivr.net/npm/sonr-shoelace/cdn/shoelace-autoloader.js"></script>
 }
 
 // Tailwind css dependencies
-templ tailwind() {
+templ Tailwind() {
 	@tailwindHandle.Once() {
-		<script src="https://cdn.tailwindcss.com?plugins=typography,aspect-ratio,container-queries"></script>
-		<script src="https://kit.fontawesome.com/9909219bb5.js" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 	}
 }
 
-templ defaultStyles() {
+templ DefaultStyles() {
 	<style>
+	    @theme {
+        --color-primary: #17c2ff;
+      }
+
    		@keyframes fade-in {
      		from { opacity: 0; }
    		}

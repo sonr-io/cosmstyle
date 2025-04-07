@@ -18,17 +18,28 @@ tasks:
       - task: build:example
 
   dev:
+    prompt: Create windows for dev?
+    preconditions:
+      - sh: command -v tmux
+      - sh: command -v air
+      - sh: command -v go
+    cmds:
+      - tmux new-window -c "#{pane_current_path}" "task serve:example"
+      - tmux new-window -c "#{pane_current_path}" "task serve:templ"
+
+  serve:example:
+    dir: example
     cmds:
       - air
+
+  serve:templ:
+    cmds:
+      - templ generate --watch
 
   gen:templ:
     aliases:
       - gen
       - g
-    sources:
-      - "**/*.templ"
-    generates:
-      - "**/_templ.go"
     cmds:
       - templ generate
       - gum log --level info --time kitchen "[UI] Templ files generated"
@@ -72,11 +83,6 @@ tasks:
 
   run:example:
     dir: example
-    sources:
-      - "**/*.templ"
-      - "**/*.go"
-    generates:
-      - "**/_templ.go"
     cmds:
       - gum log --level info --time kitchen "[EXAMPLE] Running at http://localhost:8080"
       - go run ./main.go

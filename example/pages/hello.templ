@@ -13,7 +13,7 @@ var meta = html.DefaultMetadata()
 func TimeComponent(d time.Time) templ.Component {
 	acc := info.AccountInfo{
 		Address: "sonr1q9u8t9a5c8e8h9f9g9h9i9j9k9l9m9n9o9p9q9r9s9t9u9v9w9x9y9z9a",
-		Name:    "Example Name",
+		Name:    "Example",
 		Handle:  "@jeff",
 		Block:   "1234567890",
 	}
@@ -26,7 +26,9 @@ templ timeComponent(d time.Time, acc info.AccountInfo) {
 			@blocks.MetaComponent(meta)
 		}
 		@ui.Body() {
-			@blocks.AccountInfoCard(acc)
+			@ui.Container() {
+				@blocks.HeliaFullDashboard()
+			}
 		}
 	}
 }
