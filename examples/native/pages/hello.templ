@@ -1,0 +1,51 @@
+package pages
+
+import (
+	"github.com/sonr-io/cosmstyle/models/html"
+	"github.com/sonr-io/cosmstyle/models/info"
+	"github.com/sonr-io/cosmstyle/ui"
+	"github.com/sonr-io/cosmstyle/ui/blocks"
+	"time"
+)
+
+var meta = html.DefaultMetadata()
+
+func TimeComponent(d time.Time) templ.Component {
+	acc := info.AccountInfo{
+		Address: "sonr1q9u8t9a5c8e8h9f9g9h9i9j9k9l9m9n9o9p9q9r9s9t9u9v9w9x9y9z9a",
+		Name:    "Example",
+		Handle:  "@jeff",
+		Block:   "1234567890",
+	}
+	return timeComponent(d, acc)
+}
+
+templ timeComponent(d time.Time, acc info.AccountInfo) {
+	@ui.HTML() {
+		@ui.Head() {
+			@blocks.MetaComponent(meta)
+		}
+		<sl-tab-group>
+			@ui.Nav() {
+				@ui.NavLeft() {
+					@ui.NavLogo("Example")
+				}
+				@ui.NavRight() {
+					<sl-tab slot="nav" panel="tab-1">Time</sl-tab>
+					<sl-tab slot="nav" panel="tab-2">Account</sl-tab>
+				}
+			}
+			@ui.Body() {
+				<sl-tab-panel name="tab-1" active>
+					@ui.Container() {
+						@blocks.HeliaFullDashboard()
+					}
+				</sl-tab-panel>
+			}
+		</sl-tab-group>
+	}
+}
+
+templ NotFoundComponent() {
+	<div>404 - Not found</div>
+}
