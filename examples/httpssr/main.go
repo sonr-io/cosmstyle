@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/sonr-io/cosmstyle/example/pages"
+	"github.com/sonr-io/cosmstyle/examples/httpssr/pages"
 
 	"github.com/a-h/templ"
 )

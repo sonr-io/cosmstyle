@@ -1,0 +1,186 @@
+package charts
+
+import (
+	"encoding/json"
+	"time"
+)
+
+type CandleData struct {
+	Open  float64
+	Close float64
+	High  float64
+	Low   float64
+	Date  time.Time
+}
+
+// D3 script handle for deduplication
+var d3Handle = templ.NewOnceHandle()
+
+// D3 component for loading D3.js
+templ D3() {
+	@d3Handle.Once() {
+		<script type="module">
+            import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+            window.d3 = d3;
+        </script>
+	}
+}
+
+// CandleChart component
+templ CandleChart(data []CandleData) {
+	@D3()
+	<div id="candleChart" class="@container relative">
+		<div
+			class="relative h-72 w-full"
+			style="--marginTop: 10px; --marginRight: 60px; --marginBottom: 56px; --marginLeft: 30px;"
+		></div>
+	</div>
+	<script type="module">
+        // Convert Go data to JavaScript
+        const chartData = {
+            templ.Safe(formatDataForJS(data))
+        };
+
+        // D3 Chart Implementation
+        const margin = {
+            top: 10,
+            right: 60,
+            bottom: 56,
+            left: 30
+        };
+
+        const container = d3.select("#candleChart > div");
+        const width = container.node().getBoundingClientRect().width;
+        const height = container.node().getBoundingClientRect().height;
+        const chartWidth = width - margin.left - margin.right;
+        const chartHeight = height - margin.top - margin.bottom;
+
+        // Clear any existing chart
+        container.selectAll("*").remove();
+
+        // Create SVG
+        const svg = container.append("svg")
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("class", "overflow-visible w-full h-full")
+            .attr("preserveAspectRatio", "none");
+
+        // Create chart group
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Create scales
+        const xScale = d3.scaleBand()
+            .domain(chartData.map(d => d.date))
+            .range([0, chartWidth])
+            .padding(0.3);
+
+        const yScale = d3.scaleLinear()
+            .domain([
+                d3.min(chartData, d => d.low),
+                d3.max(chartData, d => d.high)
+            ])
+            .range([chartHeight, 0]);
+
+        // Add grid lines
+        g.selectAll("grid-line")
+            .data(yScale.ticks(6))
+            .enter()
+            .append("line")
+            .attr("x1", 0)
+            .attr("x2", chartWidth)
+            .attr("y1", d => yScale(d))
+            .attr("y2", d => yScale(d))
+            .attr("stroke", "currentColor")
+            .attr("class", "text-gray-300/80 dark:text-gray-800/80")
+            .attr("stroke-dasharray", "6,5")
+            .attr("stroke-width", 0.5)
+            .attr("vector-effect", "non-scaling-stroke");
+
+        // Add Y-axis labels
+        g.selectAll("y-label")
+            .data(yScale.ticks(6))
+            .enter()
+            .append("text")
+            .attr("x", chartWidth + 10)
+            .attr("y", d => yScale(d))
+            .attr("dy", "0.32em")
+            .attr("class", "text-xs text-gray-400")
+            .text(d => d.toFixed(2));
+
+        // Add candlesticks
+        const candlesticks = g.selectAll("candlestick")
+            .data(chartData)
+            .enter()
+            .append("g");
+
+        // Add wicks (high-low lines)
+        candlesticks.append("line")
+            .attr("x1", d => xScale(d.date) + xScale.bandwidth() / 2)
+            .attr("x2", d => xScale(d.date) + xScale.bandwidth() / 2)
+            .attr("y1", d => yScale(d.high))
+            .attr("y2", d => yScale(d.low))
+            .attr("stroke", "currentColor")
+            .attr("class", "text-zinc-300 dark:text-zinc-700")
+            .attr("stroke-width", 1)
+            .attr("vector-effect", "non-scaling-stroke");
+
+        // Add bodies (open-close rectangles)
+        candlesticks.append("rect")
+            .attr("x", d => xScale(d.date))
+            .attr("y", d => yScale(Math.max(d.open, d.close)))
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => Math.abs(yScale(d.open) - yScale(d.close)))
+            .attr("class", d => d.open < d.close 
+                ? "fill-emerald-500" 
+                : "fill-red-500");
+
+        // Add X-axis labels
+        g.selectAll("x-label")
+            .data(chartData.filter((_, i) => i % 10 === 0))
+            .enter()
+            .append("text")
+            .attr("x", d => xScale(d.date) + xScale.bandwidth() / 2)
+            .attr("y", chartHeight + 20)
+            .attr("class", "text-xs text-gray-400")
+            .attr("transform", d => `rotate(45, ${xScale(d.date) + xScale.bandwidth() / 2}, ${chartHeight + 20})`)
+            .text(d => {
+                const date = new Date(d.date);
+                return `${date.getMonth() + 1}/${date.getDate()} - ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+            });
+
+        // Handle resize
+        const resizeObserver = new ResizeObserver(() => {
+            // Implement resize logic here if needed
+        });
+
+        resizeObserver.observe(container.node());
+    </script>
+}
+
+// formatDataForJS converts the Go data structure to a JavaScript-compatible JSON string
+func formatDataForJS(data []CandleData) string {
+	type jsData struct {
+		Date  string  `json:"date"`
+		Open  float64 `json:"open"`
+		Close float64 `json:"close"`
+		High  float64 `json:"high"`
+		Low   float64 `json:"low"`
+	}
+
+	jsDataArray := make([]jsData, len(data))
+	for i, d := range data {
+		jsDataArray[i] = jsData{
+			Date:  d.Date.Format(time.RFC3339),
+			Open:  d.Open,
+			Close: d.Close,
+			High:  d.High,
+			Low:   d.Low,
+		}
+	}
+
+	jsonBytes, err := json.Marshal(jsDataArray)
+	if err != nil {
+		return "[]"
+	}
+	return string(jsonBytes)
+}

@@ -1,6 +1,8 @@
 #yaml-language-server: $schema=https://json.schemastore.org/taskfile
 version: "3"
 silent: true
+vars:
+  TARGET: gohttpsr
 tasks:
   default:
     cmds:
@@ -15,7 +17,7 @@ tasks:
     cmds:
       - task: build:cosmes
       - task: build:shoelace
-      - task: build:example
+      - task: build:examples-
 
   dev:
     prompt: Create windows for dev?

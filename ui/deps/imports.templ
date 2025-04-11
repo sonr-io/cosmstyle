@@ -4,10 +4,20 @@ import "fmt"
 
 var (
 	apexChartsHandle = templ.NewOnceHandle()
+	d3Handle         = templ.NewOnceHandle()
 	dexieHandle      = templ.NewOnceHandle()
 	heliaHandle      = templ.NewOnceHandle()
 	htmxHandle       = templ.NewOnceHandle()
 )
+
+// d3 is a component that renders the D3.js library
+templ D3() {
+	@d3Handle.Once() {
+	    <script type="module">
+            import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+	    </script>
+	}
+}
 
 // dexie is a component that renders the Dexie.js library
 templ Dexie() {

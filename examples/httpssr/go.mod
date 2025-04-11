@@ -1,6 +1,6 @@
-module github.com/sonr-io/cosmstyle/example
+module github.com/sonr-io/cosmstyle/examples/httpssr
 
-replace github.com/sonr-io/cosmstyle => ../
+replace github.com/sonr-io/cosmstyle => ../../
 
 go 1.24.2
 
