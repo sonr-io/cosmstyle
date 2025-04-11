@@ -7,7 +7,7 @@ pre_cmd = ["templ generate"]
 # Just plain old shell command. You could use `make` as well.
 cmd = "task build:example"
 # Binary file yields from `cmd`.
-bin = "example/tmp/main"
+bin = "examples/httpssr/tmp/main"
 # Add additional arguments when running binary (bin/full_bin). Will run './tmp/main hello world'.
 args_bin = []
 # Watch these filename extensions.
@@ -15,7 +15,7 @@ include_ext = ["go", "tpl", "templ", "html"]
 # Ignore these filename extensions or directories.
 exclude_dir = ["assets", "tmp", "vendor", "packages"]
 # Watch these directories if you specified.
-include_dir = ["example", "forms", "models", "ui"]
+include_dir = ["examples", "forms", "models", "ui"]
 # Watch these files.
 include_file = []
 # Exclude files.

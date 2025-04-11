@@ -20,7 +20,7 @@ var d3Handle = templ.NewOnceHandle()
 templ D3() {
 	@d3Handle.Once() {
 		<script type="module">
-            import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+       
             window.d3 = d3;
         </script>
 	}
@@ -36,124 +36,44 @@ templ CandleChart(data []CandleData) {
 		></div>
 	</div>
 	<script type="module">
+	     import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
         // Convert Go data to JavaScript
-        const chartData = {
-            templ.Safe(formatDataForJS(data))
-        };
+            
+        // Declare the chart dimensions and margins.
+        const width = 640;
+        const height = 400;
+        const marginTop = 20;
+        const marginRight = 20;
+        const marginBottom = 30;
+        const marginLeft = 40;
 
-        // D3 Chart Implementation
-        const margin = {
-            top: 10,
-            right: 60,
-            bottom: 56,
-            left: 30
-        };
+        // Declare the x (horizontal position) scale.
+        const x = d3.scaleUtc()
+            .domain([new Date("2023-01-01"), new Date("2024-01-01")])
+            .range([marginLeft, width - marginRight]);
 
-        const container = d3.select("#candleChart > div");
-        const width = container.node().getBoundingClientRect().width;
-        const height = container.node().getBoundingClientRect().height;
-        const chartWidth = width - margin.left - margin.right;
-        const chartHeight = height - margin.top - margin.bottom;
+        // Declare the y (vertical position) scale.
+        const y = d3.scaleLinear()
+            .domain([0, 100])
+            .range([height - marginBottom, marginTop]);
 
-        // Clear any existing chart
-        container.selectAll("*").remove();
+        // Create the SVG container.
+        const svg = d3.create("svg")
+            .attr("width", width)
+            .attr("height", height);
 
-        // Create SVG
-        const svg = container.append("svg")
-            .attr("viewBox", `0 0 ${width} ${height}`)
-            .attr("class", "overflow-visible w-full h-full")
-            .attr("preserveAspectRatio", "none");
+        // Add the x-axis.
+        svg.append("g")
+            .attr("transform", `translate(0,${height - marginBottom})`)
+            .call(d3.axisBottom(x));
 
-        // Create chart group
-        const g = svg.append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
+        // Add the y-axis.
+        svg.append("g")
+            .attr("transform", `translate(${marginLeft},0)`)
+            .call(d3.axisLeft(y));
 
-        // Create scales
-        const xScale = d3.scaleBand()
-            .domain(chartData.map(d => d.date))
-            .range([0, chartWidth])
-            .padding(0.3);
-
-        const yScale = d3.scaleLinear()
-            .domain([
-                d3.min(chartData, d => d.low),
-                d3.max(chartData, d => d.high)
-            ])
-            .range([chartHeight, 0]);
-
-        // Add grid lines
-        g.selectAll("grid-line")
-            .data(yScale.ticks(6))
-            .enter()
-            .append("line")
-            .attr("x1", 0)
-            .attr("x2", chartWidth)
-            .attr("y1", d => yScale(d))
-            .attr("y2", d => yScale(d))
-            .attr("stroke", "currentColor")
-            .attr("class", "text-gray-300/80 dark:text-gray-800/80")
-            .attr("stroke-dasharray", "6,5")
-            .attr("stroke-width", 0.5)
-            .attr("vector-effect", "non-scaling-stroke");
-
-        // Add Y-axis labels
-        g.selectAll("y-label")
-            .data(yScale.ticks(6))
-            .enter()
-            .append("text")
-            .attr("x", chartWidth + 10)
-            .attr("y", d => yScale(d))
-            .attr("dy", "0.32em")
-            .attr("class", "text-xs text-gray-400")
-            .text(d => d.toFixed(2));
-
-        // Add candlesticks
-        const candlesticks = g.selectAll("candlestick")
-            .data(chartData)
-            .enter()
-            .append("g");
-
-        // Add wicks (high-low lines)
-        candlesticks.append("line")
-            .attr("x1", d => xScale(d.date) + xScale.bandwidth() / 2)
-            .attr("x2", d => xScale(d.date) + xScale.bandwidth() / 2)
-            .attr("y1", d => yScale(d.high))
-            .attr("y2", d => yScale(d.low))
-            .attr("stroke", "currentColor")
-            .attr("class", "text-zinc-300 dark:text-zinc-700")
-            .attr("stroke-width", 1)
-            .attr("vector-effect", "non-scaling-stroke");
-
-        // Add bodies (open-close rectangles)
-        candlesticks.append("rect")
-            .attr("x", d => xScale(d.date))
-            .attr("y", d => yScale(Math.max(d.open, d.close)))
-            .attr("width", xScale.bandwidth())
-            .attr("height", d => Math.abs(yScale(d.open) - yScale(d.close)))
-            .attr("class", d => d.open < d.close 
-                ? "fill-emerald-500" 
-                : "fill-red-500");
-
-        // Add X-axis labels
-        g.selectAll("x-label")
-            .data(chartData.filter((_, i) => i % 10 === 0))
-            .enter()
-            .append("text")
-            .attr("x", d => xScale(d.date) + xScale.bandwidth() / 2)
-            .attr("y", chartHeight + 20)
-            .attr("class", "text-xs text-gray-400")
-            .attr("transform", d => `rotate(45, ${xScale(d.date) + xScale.bandwidth() / 2}, ${chartHeight + 20})`)
-            .text(d => {
-                const date = new Date(d.date);
-                return `${date.getMonth() + 1}/${date.getDate()} - ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
-            });
-
-        // Handle resize
-        const resizeObserver = new ResizeObserver(() => {
-            // Implement resize logic here if needed
-        });
-
-        resizeObserver.observe(container.node());
+        // Append the SVG element.
+        container.append(svg.node());    
     </script>
 }
 

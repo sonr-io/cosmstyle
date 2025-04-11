@@ -898,7 +898,7 @@ export class UpdateInstantiateConfigProposal extends Message<UpdateInstantiateCo
   description = "";
 
   /**
-   * AccessConfigUpdate contains the list of code ids and the access config
+   * AccessConfigUpdates contains the list of code ids and the access config
    * to be applied.
    *
    * @generated from field: repeated cosmwasm.wasm.v1.AccessConfigUpdate access_config_updates = 3;

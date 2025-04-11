@@ -1,8 +1,6 @@
 #yaml-language-server: $schema=https://json.schemastore.org/taskfile
 version: "3"
 silent: true
-vars:
-  TARGET: gohttpsr
 tasks:
   default:
     cmds:
@@ -17,26 +15,15 @@ tasks:
     cmds:
       - task: build:cosmes
       - task: build:shoelace
-      - task: build:examples-
+      - task: build:example
 
-  dev:
-    prompt: Create windows for dev?
-    preconditions:
-      - sh: command -v tmux
-      - sh: command -v air
-      - sh: command -v go
-    cmds:
-      - tmux new-window -c "#{pane_current_path}" "task serve:example"
-      - tmux new-window -c "#{pane_current_path}" "task serve:templ"
-
-  serve:example:
-    dir: example
+  serve:
+    aliases:
+      - s
+      - dev
+    dir: examples/httpssr
     cmds:
       - air
-
-  serve:templ:
-    cmds:
-      - templ generate --watch
 
   gen:templ:
     aliases:
@@ -84,7 +71,7 @@ tasks:
       - gum log --level info --time kitchen "[SHOELACE] Web Components built"
 
   build:example:
-    dir: example
+    dir: examples/httpssr
     cmds:
       - gum spin --spinner dot --title "Building Example..." -- go build -o ./tmp/main .
 
